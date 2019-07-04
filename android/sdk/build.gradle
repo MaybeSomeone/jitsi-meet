@@ -31,6 +31,12 @@ android {
             }
         }
     }
+
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
 }
 
 dependencies {
@@ -67,7 +73,6 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 }
-
 
 // Here we bundle all assets, resources and React files. We cannot use the
 // react.gradle file provided by react-native because it's designed to be used
@@ -232,3 +237,16 @@ publishing {
         }
     }
 }
+
+task deleteJar(type: Delete) {
+    delete 'jitsi-meet.jar./libs/jitsi-meet.jar'
+}
+
+task createJar(type: Copy) {
+    from('build/intermediates/javac/release')
+    into('build/libs/jars')
+    include('classes.jar')
+    rename('classes.jar', 'jitsi-meet.jar')
+}
+
+createJar.dependsOn(deleteJar, build)

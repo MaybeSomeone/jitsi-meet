@@ -120,6 +120,7 @@ import { setSharedVideoStatus } from './react/features/shared-video';
 import { isButtonEnabled } from './react/features/toolbox';
 import { endpointMessageReceived } from './react/features/subtitles';
 
+
 const logger = require('jitsi-meet-logger').getLogger(__filename);
 
 const eventEmitter = new EventEmitter();
@@ -485,6 +486,7 @@ class ConferenceConnector {
  * call in hangup() to resolve when all operations are finished.
  */
 function disconnect() {
+    console.log('disconnect, hangup-0------');
     const onDisconnected = () => {
         APP.API.notifyConferenceLeft(APP.conference.roomName);
 

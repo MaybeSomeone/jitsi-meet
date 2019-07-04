@@ -8,6 +8,7 @@ import { getJitsiMeetGlobalNS, loadScript } from '../base/util';
 
 import { AmplitudeHandler } from './handlers';
 
+
 const logger = require('jitsi-meet-logger').getLogger(__filename);
 
 /**
@@ -144,6 +145,7 @@ function _loadHandlers(scriptURLs = [], handlerConstructorOptions) {
     }
 
     return Promise.all(promises).then(values => {
+        console.log('values:==============', values);
         for (const el of values) {
             if (el.type === 'error') {
                 logger.warn(`Failed to load ${el.url}: ${el.error}`);
@@ -163,11 +165,13 @@ function _loadHandlers(scriptURLs = [], handlerConstructorOptions) {
         ];
 
         const handlers = [];
+        console.log('=======analyticsHandlers:', analyticsHandlers);
 
         for (const Handler of analyticsHandlers) {
             // Catch any error while loading to avoid skipping analytics in case
             // of multiple scripts.
             try {
+                console.log('=======handlerConstructorOptions:', handlerConstructorOptions);
                 handlers.push(new Handler(handlerConstructorOptions));
             } catch (error) {
                 logger.warn(`Error creating analytics handler: ${error}`);

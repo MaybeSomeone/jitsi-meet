@@ -51,6 +51,10 @@ const DEFAULT_STATE = new Map();
 ReducerRegistry.register(
     'features/base/sounds',
     (state = DEFAULT_STATE, action) => {
+        // 当声音没有id时
+        if (action.soundId) {
+            return state;
+        }
         switch (action.type) {
         case _ADD_AUDIO_ELEMENT:
         case _REMOVE_AUDIO_ELEMENT:
@@ -80,10 +84,10 @@ function _addOrRemoveAudioElement(state, action) {
     const isAddAction = action.type === _ADD_AUDIO_ELEMENT;
     const nextState = new Map(state);
     const { soundId } = action;
-
+    console.log('action.type:', action.type);
     const sound = nextState.get(soundId);
-
     if (sound) {
+        console.log('add action =======');
         if (isAddAction) {
             nextState.set(soundId,
                 assign(sound, {
@@ -96,7 +100,7 @@ function _addOrRemoveAudioElement(state, action) {
                 }));
         }
     } else {
-        return logger.warn(`${action.type}: no sound for id: ${soundId}`);
+        logger.warn(`${action.type}: no sound for id: ${soundId}`);
     }
 
     return nextState;
